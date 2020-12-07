@@ -68,4 +68,34 @@ SELECT name, population, area
 FROM world
 WHERE ( area > 3000000 OR population > 250000000 ) and not (area > 3000000 AND population > 250000000 )
 
+Question No 9
+-------------------------
+SELECT name,round(population/1000000,2),round(gdp/1000000000,2)
+from world
+WHERE continent = 'South America'
+
+Question No 10
+-------------------------
+SELECT name, round(gdp/population,-3)
+from world
+where gdp >= 1000000000000
+
+Question No 11
+-------------------------
+SELECT name,capital
+from world
+where LENGTH(name) = LENGTH(capital) 
+
+Question No 12
+-------------------------
+SELECT name, capital
+FROM world
+where left(name,1) = left(capital,1) 
+and name <> capital
+
+Question No 13
+-------------------------
+select name from world
+where name like '%a%' and name like '%e%' and name like '%i%' and name like '%o%' and name like '%u%'
+AND name NOT LIKE '% %'
 
