@@ -47,12 +47,25 @@ where capital like concat (name,'_%')
 -------------------------------------------------------
 https://sqlzoo.net/wiki/SELECT_from WORLD Tutorial
 =====================================================
-Question No 1
------------------
+Question No 1 TO 6
+-------------------------
 SELECT name, continent, population FROM world
 SELECT name FROM world WHERE population >= 200000000
 SELECT name, gdp/population FROM world WHERE population >= 200000000
+SELECT name,population/1000000 FROM world WHERE continent = 'South America'
+SELECT name,population FROM world where name in ('France','Germany','Italy')
+SELECT name from world WHERE name like '%United%'
 
+Question No 7
+-------------------------
+select name, population, area
+from world
+where area > 3000000 or population > 250000000
 
+Question No 8
+-------------------------
+SELECT name, population, area
+FROM world
+WHERE ( area > 3000000 OR population > 250000000 ) and not (area > 3000000 AND population > 250000000 )
 
 
