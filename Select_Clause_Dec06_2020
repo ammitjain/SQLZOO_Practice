@@ -1,5 +1,11 @@
+https://sqlzoo.net/wiki/SELECT_basics
+=========================================
+Question No 1.
+---------------
 SELECT population FROM world
 WHERE name = 'Germany'
 ---------------------------------------------
+Question No 2.
+---------------
 SELECT name, population FROM world
 WHERE name IN ('Sweden', 'Norway', 'Denmark');
