@@ -1,0 +1,69 @@
+==============================================================================
+More Join Operations
+-------------------------------
+
+SELECT id, title FROM movie WHERE yr=1962
+ 
+select yr from movie where title = 'Citizen Kane'
+
+select id, title, yr from movie where title like '%Star%Trek%' order by yr
+
+select id from actor where name = 'Glenn Close'
+
+select id from movie where title = 'Casablanca'
+
+select a.name from casting c join actor a on a.id=c.actorid  where c.movieid = '11768'
+
+select a.name from actor a inner join casting c on a.id=c.actorid inner join movie m on c.movieid=m.id where m.title = 'Alien'
+
+select m.title from movie m join casting c on m.id=c.movieid join actor a on a.id=c.actorid where a.name = 'Harrison Ford'
+
+select m.title from movie m join casting c on m.id=c.movieid join actor a on a.id=c.actorid where a.name = 'Harrison Ford' and c.ord <> 1
+
+select m.title, a.name from movie m join casting c on m.id=c.movieid join actor a on a.id=c.actorid
+where m.yr = '1962'
+and c.ord = 1
+
+SELECT yr,COUNT(title) FROM
+  movie JOIN casting ON movie.id=movieid
+        JOIN actor   ON actorid=actor.id
+WHERE name='Rock Hudson'
+GROUP BY yr
+HAVING COUNT(title) > 2
+
+select title,name from movie join casting on (movieid=movie.id and ord=1)
+                             join actor on (actorid=actor.id)
+where movie.id in (select movieid from casting where actorid in ( select id from actor where name = 'Julie Andrews'))
+
+
+select a.name from 
+(select name, count(movieid) from actor join casting on id=actorid
+where ord = 1
+group by name
+having count(movieid) >= 15
+order by name asc) a
+
+select title,count(actorid) from movie join casting on id=movieid
+where yr=1978
+group by title
+order by 2 desc, 1 
+
+
+select name from actor join casting on actor.id = actorid join movie on movie.id = movieid where movie.id in (
+select movieid from casting 
+where actorid in (select id from actor where name  = 'art garfunkel') 
+) and actor.name != 'art garfunkel';
+===========================================================================
+NULL Operations
+===========================================================================
+SELECT teacher.name
+ FROM teacher left JOIN dept
+           ON (teacher.dept=dept.id)
+and dept.name is null
+
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+           
+
+
