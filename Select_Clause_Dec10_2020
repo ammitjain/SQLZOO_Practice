@@ -1,0 +1,80 @@
+================================Date 12/10/2020==============================================
+Using NULL
+--------------------
+1. SELECT name FROM teacher WHERE dept is null
+
+2. SELECT teacher.name, dept.name
+ 	FROM teacher INNER JOIN dept ON (teacher.dept=dept.id)
+           
+3. SELECT teacher.name, dept.name
+   	FROM teacher LEFT JOIN dept ON (teacher.dept=dept.id)
+
+4. SELECT teacher.name, dept.name 
+	FROM teacher right JOIN dept ON (teacher.dept=dept.id)
+
+5. select teacher.name, COALESCE(mobile,'07986 444 2266') from teacher
+
+6. SELECT t.name,coalesce(d.name,'None') from teacher t left join dept d on t.dept=d.id
+
+7. SELECT COUNT(id),COUNT(mobile) FROM teacher
+
+8. SELECT dept.name,COUNT(teacher.id)
+	FROM teacher RIGHT JOIN dept on teacher.dept = dept.id GROUP BY dept.name
+	
+9. SELECT name,(CASE WHEN dept in (1,2) then 'Sci' else 'Art' end) from teacher
+
+10. SELECT name,(CASE WHEN dept in (1,2) then 'Sci' when dept = 3 then 'Art' else 'None' end) from teacher
+
+=================================================================================================
+Numeric Expressions
+--------------------
+1. SELECT A_STRONGLY_AGREE
+  FROM nss
+ WHERE question='Q01'
+   AND institution='Edinburgh Napier University'
+   AND subject='(8) Computer Science'
+
+2. SELECT institution,subject 
+  FROM nss
+ WHERE question='Q15' and score >=100
+ 
+3. SELECT institution,score
+  FROM nss
+ WHERE question='Q15'
+   AND score < 50
+   AND subject='(8) Computer Science'
+4. SELECT subject,SUM(response)
+  FROM nss
+ WHERE question='Q22'
+   AND (subject='(8) Computer Science'
+   OR subject='(H) Creative Arts and Design')
+GROUP BY subject
+
+5. SELECT subject,sum(response*A_STRONGLY_AGREE/100 )
+  FROM nss
+ WHERE question='Q22'
+   AND A_STRONGLY_AGREE is not NULL
+   AND (subject='(H) Creative Arts and Design'
+   or subject='(8) Computer Science')
+GROUP BY subject
+
+6. SELECT subject,round(sum(response*A_STRONGLY_AGREE)/sum(response))
+  FROM nss
+ WHERE question='Q22'
+   AND A_STRONGLY_AGREE is not NULL
+   AND (subject='(H) Creative Arts and Design'
+   OR subject='(8) Computer Science')
+GROUP BY subject
+
+7. SELECT institution,round(sum(score*response)/sum(response))
+  FROM nss
+ WHERE question='Q22'
+   AND (institution LIKE '%Manchester%')
+group by institution
+ORDER BY institution
+
+8. SELECT institution,sum(sample),sum(case when subject='(8) Computer Science' then  sample else 0 end) comp
+  FROM nss
+ WHERE question='Q01'
+   AND (institution LIKE '%Manchester%')
+group by institution
