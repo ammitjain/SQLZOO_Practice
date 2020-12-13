@@ -1,0 +1,40 @@
+
+Using Winndows Function
+================================================================
+
+SELECT name, DAY(whn),
+ confirmed, deaths, recovered
+ FROM covid
+WHERE name = 'Spain'
+AND MONTH(whn) = 3
+ORDER BY whn
+
+SELECT name, DAY(whn), confirmed,
+   LAG(confirmed, 1) OVER (PARTITION BY name ORDER BY whn)
+ FROM covid
+WHERE name = 'Italy'
+AND MONTH(whn) = 3
+ORDER BY whn
+ 
+select newtab.name,newtab.a,(newtab.confirmed - lagcase) new
+from
+(SELECT name, DAY(whn) a, confirmed,
+   LAG(confirmed, 1) OVER (PARTITION BY name ORDER BY whn) lagcase
+  FROM covid
+WHERE name = 'Italy'
+AND MONTH(whn) = 3
+ORDER BY whn) newtab
+
+--------------------Query not working and giving syntaxt error--------------
+You have an error in your SQL syntax; check the manual that corresponds to your MariaDB 
+server version for the right syntax to use near 'SELECT name, DATE_FORMAT(whn,'%Y-%m-%d') ab,
+lag(confirmed,1) over(partition by ' at line 2
+--------------------------------------------------------------------------------
+select asd.name,asd.ab,dnc
+(SELECT name, DATE_FORMAT(whn,'%Y-%m-%d') ab, lag(confirmed,1) over(partition by name order by DATE_FORMAT(whn,'%Y-%m-%d')) dnc
+ FROM covid
+WHERE name = 'Italy'
+AND WEEKDAY(whn) = 0
+ORDER BY whn) asd
+
+-------------------------------------------------------------------------------------
