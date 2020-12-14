@@ -38,3 +38,13 @@ AND WEEKDAY(whn) = 0
 ORDER BY whn) asd
 
 -------------------------------------------------------------------------------------
+Date=12-13-2020
+------------------------Working Code---------------------
+select newtab.name,newdate, (newtab.confirmed-gap7) as newcase from
+(SELECT name, DATE_FORMAT(whn,'%Y-%m-%d') newdate, confirmed,
+lag(confirmed,1) over(partition by  WEEKDAY(whn) = 0 order by whn) gap7
+ FROM covid
+WHERE name = 'Italy'
+AND WEEKDAY(whn) = 0
+ORDER BY whn) newtab
+
