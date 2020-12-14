@@ -1,0 +1,42 @@
+select newtab.name,newdate, (newtab.confirmed-gap7) as newcase from
+(SELECT name, DATE_FORMAT(whn,'%Y-%m-%d') newdate, confirmed,
+lag(confirmed,1) over(partition by  WEEKDAY(whn) = 0 order by whn) gap7
+ FROM covid
+WHERE name = 'Italy'
+AND WEEKDAY(whn) = 0
+ORDER BY whn) newtab
+
+SELECT tw.name, DATE_FORMAT(tw.whn,'%Y-%m-%d'), 
+ tw.confirmed - lw.confirmed
+ FROM covid tw LEFT JOIN covid lw ON 
+  DATE_ADD(lw.whn, INTERVAL 1 WEEK) = tw.whn
+   AND tw.name=lw.name
+WHERE tw.name = 'Italy'
+AND WEEKDAY(tw.whn) = 0
+ORDER BY tw.whn
+
+SELECT 
+   name,
+   confirmed,
+   RANK() OVER (ORDER BY confirmed DESC) rc,
+   deaths,
+   RANK() OVER (ORDER BY deaths DESC) rc
+
+  FROM covid
+WHERE whn = '2020-04-20'
+ORDER BY confirmed DESC
+
+SELECT 
+   world.name,
+   ROUND(100000*confirmed/population,0),
+rank() over( partition by ROUND(100000*confirmed/population,0) order by name)
+  FROM covid JOIN world ON covid.name=world.name
+WHERE whn = '2020-04-20' AND population > 10000000
+ORDER BY population DESC
+
+select c1.name,DATE_FORMAT(c1.whn,'%Y-%m-%d'), c1.confirmed 
+from covid c1
+where c1.confirmed >=1000
+and DATE_FORMAT(c1.whn,'%Y-%m-%d') in (select max(DATE_FORMAT(c2.whn,'%Y-%m-%d')) over(partition by name) from covid c2 where confirmed >=1000   )
+order by DATE_FORMAT(whn,'%Y-%m-%d') desc
+
