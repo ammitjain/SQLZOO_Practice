@@ -1,0 +1,92 @@
+Rewrite code for the self JOINS exercise.
+========================================================================
+7. select distinct a.company, a.num
+from route a join route b on (a.company=b.company and a.num=b.num)
+where a.stop = 115 and b.stop=137
+
+8. select distinct a.company, a.num
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name ='Craiglockhart' and s1.name='Tollcross'
+
+
+9. select distinct s1.name,a.company, a.num
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name ='Craiglockhart' and a.company = 'LRT'
+
+
+10. select tab1.numa, tab1.cosa from 
+(select distinct a.company cosa, a.num numa,a.stop stopaa
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name ='Craiglockhart' and s1.name='Lochend') tab1 join
+(select distinct a.company cosa, a.num numa,b.stop stopaa
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name ='Craiglockhart' and s1.name='Lochend') tab2 on 
+(tab1.numa=tab2.numa and tab1.cosa=tab2.cosa)
+where tab1.stopaa = tab2.stopaa
+-------------------------------------------------------------------
+
+select tabA.numa,tabA.compa,tabA.stopa,tabB.numb,tabB.compb from 
+(select distinct s1.name stopa,a.company compa, a.num numa
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)) tabA JOIN
+(select distinct s1.name stopb,a.company compb, a.num numb
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)) tabB
+on (tabA.stopa = tabB.stopb)
+where tabA.stopa = 'Craiglockhart'
+and tabB.stopb = 'Lochend'
+
+--------------------------------------------------------------------
+select tabA.numa,tabA.compa,tabA.stopa,tabB.numb,tabB.compb from 
+(select distinct s1.name stopa,a.company compa, a.num numa
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name='Craiglockhart'  and s1.name <> 'Lochend' ) tabA JOIN
+(select distinct s1.name stopb,a.company compb, a.num numb
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name='Lochend'  and s1.name <> 'Craiglockhart') tabB
+on (tabA.stopa = tabB.stopb)
+-------------------------------------------------------------------
+select distinct tabA.numa,tabA.compa,tabA.stopa,tabB.numb,tabB.compb from 
+(select distinct s1.name stopa,a.company compa, a.num numa
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name='Craiglockhart'  ) tabA JOIN
+(select distinct s1.name stopb,a.company compb, a.num numb
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name='Lochend') tabB
+on (tabB.stopb=tabA.stopa)
+order by tabA.numa,tabA.compa,tabB.stopb
+----------------------------------Finally Working Code------------------------------------
+select distinct tabA.numa,tabA.compa,tabA.stopa,tabB.numb,tabB.compb from 
+(select distinct s1.name stopa,a.company compa, a.num numa
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name='Craiglockhart'  ) tabA JOIN
+(select distinct s1.name stopb,a.company compb, a.num numb
+from route a join route b on (a.company=b.company and a.num=b.num)
+join stops s on (s.id=a.stop)
+join stops s1 on (s1.id=b.stop)
+where s.name='Lochend') tabB
+on (tabB.stopb=tabA.stopa)
+order by tabA.numa,tabA.stopa,tabB.numb,tabB.stopb
+---------------------------------------------------------------------------
+
+
