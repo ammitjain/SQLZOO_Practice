@@ -1,0 +1,64 @@
+SQL Exercises from SQLCourse2 ( Exercise 1-6)
+===========================================================================
+1. select customerid,item,price
+from items_ordered 
+where customerid=10449;
+
+2. select customerid,item,price
+from items_ordered 
+where item='Tent';
+
+3. select customerid,order_date,item,price
+from items_ordered 
+where item like 'S%';
+
+4. select distinct item from items_ordered;
+
+5. select max(price) from items_ordered;
+
+6. select avg(price) from items_ordered
+where order_date like '%Dec%';
+
+7. select count(1) from items_ordered;
+
+8. select min(price) from items_ordered
+where item like '%Tent%';
+
+9. select state,count(*) from customers
+group by state;
+
+10, select item,max(price),min(price)
+from items_ordered
+group by item;
+
+11.select customerid,count(item),sum(price)
+from items_ordered
+group by customerid;
+
+12. select state,count(1)
+from customers
+group by state
+having count(1) > 1;
+
+13. select item,max(price),min(price)
+from items_ordered
+group by item
+having max(price) > 190;
+
+14.select customerid,count(item),sum(price)
+from items_ordered
+group by customerid
+having count(item) > 1;
+
+15. select lastname,firstname,city
+from customers
+order by lastname;
+
+16. select lastname,firstname,city
+from customers
+order by lastname desc;
+
+17. select item,price
+from items_ordered 
+where price > 10
+order by price;
