@@ -1,0 +1,58 @@
+--------------------------------------
+Leetcode Easy Problems
+---------------------------------
+1.Write your MySQL query  of the tweet is strictly greater than 15.
+select tweet_id from Tweets
+where length(content) > 15
+
+2.Bank account Summary
+select name,sum(amount) as balance from Users u join Transactions t on (u.account=t.account)
+group by name
+having sum(amount) > 10000
+
+3.Write an SQL query to find the id and the name of all students who are enrolled in departments that no longer exists.
+select s.id,s.name from Students s 
+where s.department_id not in ( select distinct id from Departments)
+
+4.Write an SQL query to find the IDs of the users who visited without making any transactions and the number of times they made these types of visits.
+select v.customer_id,count(v.visit_id) count_no_trans from Visits v left join Transactions t on(v.visit_id=t.visit_id)
+where t.visit_id is null
+group by v.customer_id
+
+
+5. # Write an SQL query to report, How much cubic feet of volume does the inventory occupy in each warehouse.
+select w.name warehouse_name ,sum((w.units*(p.Width*p.Length*p.Height))) VOLUME
+from Warehouse w join Products p on (w.product_id=p.product_id)
+group by w.name
+
+6. # Write an SQL query to show the unique ID of each user, If a user doesn't have a unique ID replace just show null.
+select e1.unique_id,e.name from Employees e left join EmployeeUNI e1 on (e.id=e1.id)
+
+7.# Write your MySQL query statement below
+select employee_id,(select count(b.team_id) from Employee b where a.team_id=b.team_id) as team_size
+from Employee a
+
+
+Problems from http://studybyyourself.com/ Exercise 10.1
+----------------------------------------------------------
+4. SELECT b.Title,b.Isnb
+FROM Book b join Publisher p on (b.Publisher_id=p.ID) join Writing w on (b.ID = w.Book_id) join Author a on (w.Author_id=a.ID)
+WHERE p.name = 'Packt'
+and a.Fist_name <> 'Andrew' and a.Last_name <> 'Duncan'
+
+SELECT b.Title,b.Isbn
+FROM Book b join Publisher p on (b.Publisher_id=p.ID) join Writing w on (b.ID = w.Book_id) where p.name = 'Packt' and w.Book_id not in (
+select w1.Book_id from Writing w1 join Author a on (w1.Author_id=a.ID)
+WHERE a.First_name <> 'Andrew' and a.Last_name <> 'Duncan')
+
+SELECT b.Title,b.Isbn
+FROM Book b join Publisher p on (b.Publisher_id=p.ID) join Writing w on (b.ID = w.Book_id) where p.name = 'Packt' and w.Book_id not in (
+select w1.Book_id from Writing w1 join Author a on (w1.Author_id=a.ID)
+WHERE a.First_name = 'Andrew' and a.Last_name = 'Duncan')
+
+SELECT b.Title,b.Isbn
+FROM Book b join Publisher p on (b.Publisher_id=p.ID) join Writing w on (b.ID = w.Book_id) where p.name = 'Packt' and w.Book_id not in (
+select w1.Book_id from Writing w1 join Author a on (w1.Author_id=a.ID)
+WHERE a.First_name = 'Andrew' and a.Last_name = 'Duncan')
+
+
