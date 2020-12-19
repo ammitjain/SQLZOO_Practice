@@ -1,0 +1,78 @@
+--------------------------------------------------------------------------------
+Date 18th Dec 2020 LeetCode Easy Problems
+================================================================================
+# Write an SQL query to find all the possible triplets representing the country under the given constraints.
+select a.student_name as member_A, b.student_name as member_B,c.student_name  as member_C
+from SchoolA a inner join SchoolB b on (a.student_id <> b.student_id and a.student_name <> b.student_name)
+join SchoolC c on (b.student_id <> c.student_id and b.student_name <> c.student_name and a.student_id <> c.student_id and a.student_name <> c.student_name)
+
+
+# Write an SQL query to find all the possible triplets representing the country under the given constraints.
+select a.student_name as member_A, b.student_name as member_B, c.student_name as member_C
+from schoolA a,schoolB b,schoolC c
+where   a.student_name <> b.student_name
+and b.student_name <> c.student_name
+and a.student_name <> c.student_name
+AND  
+a.student_id <> b.student_id
+and b.student_id <> c.student_id
+and a.student_id <> c.student_id
+
+# Write your MySQL query statement below
+select patient_id,patient_name,conditions from Patients
+where conditions like 'DIAB1%'
+OR conditions like '% DIAB1%'
+
+# Write an SQL query to find for each date, the number of distinct products sold and their names.
+select sell_date, count(distinct product) as num_sold, group_concat(distinct product separator ',') as products 
+from Activities
+group by sell_date       
+
+===============================Two Tries=====================================                                           
+# Write your MySQL query statement below
+select distinct date_format(order_date, '%Y-%c') month,count(distinct order_id) as order_count,
+count(distinct customer_id) as customer_count
+from Orders
+where invoice > 20
+group by date_format(order_date, '%Y-%c')
+------------------------------------------------------------------------------
+# Write your MySQL query statement below
+select distinct date_format(order_date, '%Y-%m') month,count( order_id) as order_count,
+count(distinct customer_id) as customer_count
+from Orders
+where invoice > 20
+group by date_format(order_date, '%Y-%m')
+------------------------------------------------------------------------------
+# Write your MySQL query statement below
+select distinct date_format(order_date, '%Y-%m') month,count( order_id) as order_count,
+count(distinct customer_id) as customer_count
+from Orders
+where invoice > 20
+group by year(order_date), month(order_date)
+=====================================================================
+
+# Write your MySQL query statement below
+select name,coalesce(sum(distance),0)as travelled_distance  from Users u left join Rides r on u.id=r.user_id
+group by name
+order by 2 desc ,1 asc
+
+# Write your MySQL query statement below
+select product_id,sum(quantity) as total_quantity 
+from Sales
+group by product_id
+-------------
+Improved
+--------------
+# Write your MySQL query statement below
+select s.product_id,sum(s.quantity) as total_quantity 
+from Sales s left join Product p on (s.product_id=p.product_id)
+group by s.product_id
+
+# Write your MySQL query statement below
+select p.product_name,s.year,s.price
+from Product p  inner join Sales s on (p.product_id=s.product_id)
+--------------------------------------------------
+# Write your MySQL query statement below
+select product_name,year,price
+from Sales  left join Product  using (product_id)
+
