@@ -1,0 +1,31 @@
+------------------------------------------------------------------------------------
+Date 12-17-2020
+======================================================================================
+
+# Write an SQL query to find the average selling price for each product.
+select p.product_id,round(sum(p.price*u.units)/sum(u.units),2) as average_price
+from Prices p inner join UnitsSold u using(product_id)
+where u.purchase_date >= p.start_date and u.purchase_date <= p.end_date
+group by p.product_id
+
+# Write an SQL query to find the percentage of immediate orders in the table, rounded to 2 decimal places.
+select round(sum(case when order_date=customer_pref_delivery_date  then 1 else 0 end)/count(1)*100,2) as immediate_percentage 
+from Delivery
+
+# Write your MySQL query statement below
+select id,
+max(case when month='Jan' then revenue else Null end) as 'Jan_Revenue',
+max(case when month='Feb' then revenue else Null end) as 'Feb_Revenue',
+max(case when month='Mar' then revenue else Null end) as 'Mar_Revenue',
+max(case when month='Apr' then revenue else Null end) as 'Apr_Revenue',
+max(case when month='May' then revenue else Null end) as 'May_Revenue',
+max(case when month='Jun' then revenue else Null end) as 'Jun_Revenue',
+max(case when month='Jul' then revenue else Null end) as 'Jul_Revenue',
+max(case when month='Aug' then revenue else Null end) as 'Aug_Revenue',
+max(case when month='Sep' then revenue else Null end) as 'Sep_Revenue',
+max(case when month='Oct' then revenue else Null end) as 'Oct_Revenue',
+max(case when month='Nov' then revenue else Null end) as 'Nov_Revenue',
+max(case when month='Dec' then revenue else Null end) as 'Dec_Revenue'
+from Department
+group by 1
+order by 1;
