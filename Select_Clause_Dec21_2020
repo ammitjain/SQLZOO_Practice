@@ -1,0 +1,42 @@
+------------------------------------------------------------------------------------
+Date 12-20-2020
+======================================================================================
+select player_id,min(event_date) first_login  from Activity group by player_id
+
+# Write your MySQL query statement below
+select min(abs(p.x-p1.x)) as shortest
+from point p join point p1 on p.x <> p1.x
+
+# Write your MySQL query statement below
+select machine_id, round(abs(sum(case when activity_type='start' then timestamp else 0 end)- sum(case when activity_type='end' then timestamp else 0 end))/2,3) as processing_time 
+from Activity
+group by machine_id;
+
+# Write your MySQL query statement below
+select machine_id, round(abs(sum(case when activity_type='start' then timestamp else 0 end)- sum(case when activity_type='end' then timestamp else 0 end))/sum(case when activity_type='start' then 1 else 0 end),3) as processing_time 
+from Activity
+group by machine_id;
+
+# Write your MySQL query statement below
+select machine_id, round(abs(sum(case when activity_type='start' then timestamp else 0 end)- sum(case when activity_type='end' then timestamp else 0 end))/count(distinct process_id),3) as processing_time 
+from Activity
+group by machine_id;
+
+# Write your MySQL query statement below
+select name,population, area 
+from World
+where (area > 3000000 or population > 25000000)
+
+# Write your MySQL query statement below
+select p.product_name, sum(o.unit) unit
+from Products p join Orders o using(product_id)
+where date_format(order_date,'%m') = '02'
+group by o.product_id
+having sum(o.unit) >= 100
+
+# Write your MySQL query statement below
+select distinct author_id as id
+from Views
+where author_id=viewer_id
+order by 1 asc
+
