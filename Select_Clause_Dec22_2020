@@ -1,0 +1,46 @@
+# Write your MySQL query statement below
+select (case when duration < 300 then '[0-5>' 
+        when duration >= 300 and duration < 600 then '[5-10>'
+        when duration >= 600 and duration < 900 then '[10-15>' 
+        when duration >= 900 then '[15 or more'
+        end) as BIN, 
+sum(case when duration < 300 then 1 else  
+    case when duration >= 300 and duration < 600 then 1 else 
+    case when duration >= 900  then 1 else
+    case when duration >= 600 and duration < 900 then 1 else 0
+    end end end end) as TOTAL
+from Sessions
+group by 1
+
+# Write your MySQL query statement below
+select '[0-5>' as BIN, count(duration) as TOTAL from Sessions where duration < 300
+Union
+select '[5-10>' as BIN, count(duration) as TOTAL from Sessions where duration >= 300 and duration < 600
+Union
+select '[10-15>' as BIN, count(duration) as TOTAL from Sessions where duration >=600 and duration <900
+Union
+select '15 or more' as BIN, count(duration) as TOTAL from Sessions where duration >= 900
+
+
+
+# Write your MySQL query statement below
+select distinct author_id as id
+from Views
+where author_id=viewer_id
+order by 1 asc
+
+# Write your MySQL query statement below
+select p.product_name, sum(o.unit) unit
+from Products p join Orders o using(product_id)
+where date_format(order_date,'%m') = '02'
+group by o.product_id
+having sum(o.unit) >= 100
+
+update salary set sex=case when sex='m' then 'f' else 'm' end
+
+
+# Write your MySQL query statement below
+select p.name,sum(i.rest) rest,sum(i.paid) paid,sum(i.canceled) canceled,sum(i.refunded) refunded
+from Product p join Invoice i on (p.product_id=i.product_id)
+group by p.name
+order by 1
